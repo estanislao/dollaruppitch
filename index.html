@@ -1,0 +1,684 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="DollarUp - Investimento em Dólar Acessível via PIX com Rendimento Automatizado">
+    <title>DollarUp.io - Investimento em Dólar Democratizado</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #1F4788;
+            --primary-dark: #0D2745;
+            --accent: #00AA5E;
+            --accent-light: #5ED6A3;
+            --text-dark: #1A1A1A;
+            --text-light: #FFFFFF;
+            --surface: #F8F9FA;
+            --surface-dark: #E8EBF0;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.6;
+            color: var(--text-dark);
+            background: white;
+        }
+
+        .hero {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: var(--text-light);
+            padding: 80px 20px;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        .hero p {
+            font-size: 1.5rem;
+            opacity: 0.95;
+            max-width: 800px;
+            margin: 0 auto 30px;
+        }
+
+        .accent-bar {
+            width: 80px;
+            height: 4px;
+            background: var(--accent);
+            margin: 20px auto;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        section {
+            padding: 60px 20px;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            color: var(--primary);
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .section-subtitle {
+            font-size: 1.2rem;
+            color: var(--text-dark);
+            opacity: 0.8;
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .grid {
+            display: grid;
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .grid-2 {
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        }
+
+        .grid-3 {
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        }
+
+        .card {
+            background: var(--surface);
+            padding: 30px;
+            border-radius: 12px;
+            border-left: 4px solid var(--accent);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .card h3 {
+            color: var(--primary-dark);
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+        }
+
+        .card p {
+            color: var(--text-dark);
+            opacity: 0.8;
+        }
+
+        .metric-card {
+            text-align: center;
+            background: var(--surface);
+            padding: 40px 30px;
+            border-radius: 12px;
+            border-top: 4px solid var(--accent);
+        }
+
+        .metric-value {
+            font-size: 3rem;
+            font-weight: bold;
+            color: var(--accent);
+            margin-bottom: 10px;
+        }
+
+        .metric-label {
+            font-size: 1rem;
+            color: var(--text-dark);
+            opacity: 0.7;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .metric-detail {
+            font-size: 0.9rem;
+            color: var(--text-dark);
+            opacity: 0.6;
+            margin-top: 8px;
+        }
+
+        .feature-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .feature-list li {
+            padding: 15px 0;
+            padding-left: 30px;
+            position: relative;
+            border-bottom: 1px solid var(--surface-dark);
+        }
+
+        .feature-list li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: var(--accent);
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        .cta-section {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: var(--text-light);
+            padding: 80px 20px;
+            text-align: center;
+        }
+
+        .cta-section h2 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+        }
+
+        .cta-section p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            margin-bottom: 30px;
+        }
+
+        .button {
+            display: inline-block;
+            background: var(--accent);
+            color: var(--text-light);
+            padding: 15px 40px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 1.1rem;
+            transition: background 0.3s ease, transform 0.3s ease;
+        }
+
+        .button:hover {
+            background: var(--accent-light);
+            transform: translateY(-2px);
+        }
+
+        .roadmap {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-top: 40px;
+        }
+
+        .roadmap-item {
+            background: var(--surface);
+            padding: 25px;
+            border-radius: 12px;
+            border-left: 6px solid var(--accent);
+        }
+
+        .roadmap-item.highlight {
+            border-left-color: var(--primary);
+            background: linear-gradient(135deg, rgba(31, 71, 136, 0.05) 0%, rgba(31, 71, 136, 0.1) 100%);
+        }
+
+        .roadmap-phase {
+            font-size: 0.85rem;
+            color: var(--accent);
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 10px;
+        }
+
+        .roadmap-item.highlight .roadmap-phase {
+            color: var(--primary);
+        }
+
+        .roadmap-title {
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: var(--primary-dark);
+            margin-bottom: 10px;
+        }
+
+        .roadmap-desc {
+            font-size: 0.95rem;
+            color: var(--text-dark);
+            opacity: 0.8;
+            line-height: 1.5;
+        }
+
+        .roadmap-cost {
+            font-size: 1.1rem;
+            font-weight: bold;
+            color: var(--accent);
+            margin-top: 12px;
+        }
+
+        .roadmap-item.highlight .roadmap-cost {
+            color: var(--primary);
+        }
+
+        footer {
+            background: var(--primary-dark);
+            color: var(--text-light);
+            padding: 40px 20px;
+            text-align: center;
+        }
+
+        footer p {
+            opacity: 0.8;
+            margin: 10px 0;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+            margin: 40px 0;
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .hero p {
+                font-size: 1.2rem;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+
+            .metric-value {
+                font-size: 2.5rem;
+            }
+        }
+
+        .problem-highlight {
+            background: linear-gradient(135deg, rgba(255, 107, 53, 0.1) 0%, rgba(255, 107, 53, 0.05) 100%);
+            border-left-color: #FF6B35;
+        }
+
+        .tech-stack {
+            background: var(--surface);
+            padding: 30px;
+            border-radius: 12px;
+            margin-top: 30px;
+        }
+
+        .tech-stack h4 {
+            color: var(--primary);
+            margin-bottom: 15px;
+        }
+
+        .tech-stack ul {
+            list-style: none;
+            padding: 0;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 10px;
+        }
+
+        .tech-stack li {
+            background: white;
+            padding: 10px 15px;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <!-- Hero Section -->
+    <div class="hero">
+        <h1>DollarUp.io</h1>
+        <div class="accent-bar"></div>
+        <p>Investimento em Dólar Acessível via PIX com Rendimento Automatizado</p>
+        <p style="font-size: 1.1rem; opacity: 0.85;">Democratizando o acesso a investimentos dolarizados para brasileiros</p>
+    </div>
+
+    <!-- Problema -->
+    <section>
+        <div class="container">
+            <h2 class="section-title">O Problema</h2>
+            <p class="section-subtitle">Brasileiros enfrentam barreiras enormes para proteger seu patrimônio da desvalorização cambial</p>
+            
+            <div class="stats-grid">
+                <div class="metric-card problem-highlight">
+                    <div class="metric-value">27,4%</div>
+                    <div class="metric-label">Desvalorização do Real</div>
+                    <div class="metric-detail">em 2024</div>
+                </div>
+                <div class="metric-card problem-highlight">
+                    <div class="metric-value">36M</div>
+                    <div class="metric-label">Brasileiros</div>
+                    <div class="metric-detail">buscam proteção cambial</div>
+                </div>
+                <div class="metric-card problem-highlight">
+                    <div class="metric-value">0,5%</div>
+                    <div class="metric-label">Poupança/mês</div>
+                    <div class="metric-detail">não acompanha inflação</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Nossa Solução -->
+    <section style="background: var(--surface);">
+        <div class="container">
+            <h2 class="section-title">Nossa Solução</h2>
+            <p class="section-subtitle">Investimento em dólar via PIX + Rendimento DeFi automatizado</p>
+            
+            <div class="grid grid-3">
+                <div class="card">
+                    <h3>💰 Acesso Simples</h3>
+                    <p>Depósito em reais via PIX com conversão automática para USDT. Sem necessidade de conta internacional ou conhecimento técnico.</p>
+                </div>
+                <div class="card">
+                    <h3>📈 Rendimento Passivo</h3>
+                    <p>Yield automático de ~6% APY através de protocolos DeFi auditados (Aave + Nexo.io) com rebalanceamento inteligente.</p>
+                </div>
+                <div class="card">
+                    <h3>🔒 Segurança Total</h3>
+                    <p>Custódia institucional via Fireblocks com tecnologia MPC (Multi-Party Computation). Infraestrutura de nível bancário.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Oportunidade de Mercado -->
+    <section>
+        <div class="container">
+            <h2 class="section-title">Oportunidade de Mercado</h2>
+            <p class="section-subtitle">Brasil é o 5º maior mercado cripto global com crescimento explosivo</p>
+            
+            <div class="stats-grid">
+                <div class="metric-card">
+                    <div class="metric-value">31,9M</div>
+                    <div class="metric-label">Usuários Cripto Ativos</div>
+                    <div class="metric-detail">91,8% usam stablecoins</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-value">US$ 353M</div>
+                    <div class="metric-label">Mercado até 2030</div>
+                    <div class="metric-detail">CAGR 16,5%</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-value">160M</div>
+                    <div class="metric-label">Usuários de PIX</div>
+                    <div class="metric-detail">75-80% da pop. adulta</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Como Funciona -->
+    <section style="background: var(--surface);">
+        <div class="container">
+            <h2 class="section-title">Como Funciona</h2>
+            <p class="section-subtitle">Fluxo automatizado com agentes autônomos</p>
+            
+            <div class="grid grid-2">
+                <div class="card">
+                    <h3>1️⃣ Depósito PIX</h3>
+                    <p>Usuário envia BRL via PIX. O sistema monitora automaticamente a transação.</p>
+                </div>
+                <div class="card">
+                    <h3>2️⃣ Conversão USDT</h3>
+                    <p>Swap automático BRL→USDT via Bitso Exchange com melhor taxa disponível.</p>
+                </div>
+                <div class="card">
+                    <h3>3️⃣ Custódia Segura</h3>
+                    <p>USDT transferido para custódia Fireblocks + Nexo.io com tecnologia MPC.</p>
+                </div>
+                <div class="card" style="border-left-color: var(--primary);">
+                    <h3>4️⃣ Yield DeFi</h3>
+                    <p>Alocação automática em pools DeFi (Aave) gerando ~6% APY passivo.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Modelo de Receita -->
+    <section>
+        <div class="container">
+            <h2 class="section-title">Modelo de Receita</h2>
+            <p class="section-subtitle">Múltiplas fontes de monetização sustentável</p>
+            
+            <div class="grid grid-3">
+                <div class="card">
+                    <h3>0,5%</h3>
+                    <p><strong>Taxa de Depósito</strong><br>Cobrada no momento do depósito via PIX</p>
+                </div>
+                <div class="card">
+                    <h3>20%</h3>
+                    <p><strong>Performance Fee</strong><br>Sobre rendimentos DeFi (usuário fica com 80%)</p>
+                </div>
+                <div class="card">
+                    <h3>R$ 19/mês</h3>
+                    <p><strong>Plano Premium</strong><br>APY boost, relatórios fiscais, API, limites maiores</p>
+                </div>
+            </div>
+
+            <div class="stats-grid" style="margin-top: 50px;">
+                <div class="metric-card">
+                    <div class="metric-value">R$ 50</div>
+                    <div class="metric-label">CAC</div>
+                    <div class="metric-detail">Custo de Aquisição</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-value">R$ 500</div>
+                    <div class="metric-label">LTV</div>
+                    <div class="metric-detail">Lifetime Value</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-value">10x</div>
+                    <div class="metric-label">Retorno</div>
+                    <div class="metric-detail">LTV/CAC Ratio</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Projeções Financeiras -->
+    <section style="background: var(--surface);">
+        <div class="container">
+            <h2 class="section-title">Projeções Financeiras</h2>
+            <p class="section-subtitle">Crescimento escalável com margens saudáveis</p>
+            
+            <div class="stats-grid">
+                <div class="metric-card">
+                    <div class="metric-label">Ano 1</div>
+                    <div class="metric-value">R$ 1,2M</div>
+                    <div class="metric-detail">10.000 usuários</div>
+                    <div class="metric-detail" style="margin-top: 10px; font-weight: bold;">Margem: 50%</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-label">Ano 2</div>
+                    <div class="metric-value">R$ 6M</div>
+                    <div class="metric-detail">50.000 usuários</div>
+                    <div class="metric-detail" style="margin-top: 10px; font-weight: bold;">Margem: 75%</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-label">Ano 3</div>
+                    <div class="metric-value">R$ 18M</div>
+                    <div class="metric-detail">150.000 usuários</div>
+                    <div class="metric-detail" style="margin-top: 10px; font-weight: bold;">Margem: 89%</div>
+                </div>
+            </div>
+
+            <div style="text-align: center; margin-top: 40px; padding: 30px; background: white; border-radius: 12px;">
+                <h3 style="color: var(--primary); margin-bottom: 10px;">Break-even no mês 6</h3>
+                <p style="opacity: 0.7;">Com aproximadamente 6.000 usuários ativos</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Vantagem Competitiva -->
+    <section>
+        <div class="container">
+            <h2 class="section-title">Vantagem Competitiva</h2>
+            <p class="section-subtitle">Por que vamos vencer</p>
+            
+            <ul class="feature-list" style="max-width: 900px; margin: 0 auto;">
+                <li><strong>Único com Yield Automático:</strong> Mercado Bitcoin e Nubank focam apenas em trading. Nós geramos rendimento passivo real através de DeFi.</li>
+                <li><strong>Agentes Autônomos:</strong> Arquitetura com Fetch.ai reduz custos operacionais em 40% e aumenta eficiência transacional.</li>
+                <li><strong>UX Simples + DeFi Avançado:</strong> Interface comparável a Nubank + tecnologia DeFi sofisticada = acessível para todos.</li>
+                <li><strong>CAC Otimizado:</strong> Custo de aquisição de R$ 50 com LTV de R$ 500 = retorno de 10x sobre investimento em marketing.</li>
+                <li><strong>Foco em Proteção Patrimonial:</strong> Posicionamento claro como solução de hedge cambial, não apenas trading especulativo.</li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- Arquitetura Técnica -->
+    <section style="background: var(--surface);">
+        <div class="container">
+            <h2 class="section-title">Arquitetura Técnica</h2>
+            <p class="section-subtitle">Stack moderno e escalável</p>
+            
+            <div class="grid grid-2">
+                <div class="tech-stack">
+                    <h4>Frontend</h4>
+                    <ul>
+                        <li>Next.js 14</li>
+                        <li>Tailwind CSS</li>
+                        <li>Zustand</li>
+                        <li>Recharts</li>
+                    </ul>
+                </div>
+                <div class="tech-stack">
+                    <h4>Backend</h4>
+                    <ul>
+                        <li>FastAPI (Python)</li>
+                        <li>PostgreSQL 15</li>
+                        <li>Redis</li>
+                        <li>JWT + 2FA</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="tech-stack" style="margin-top: 20px;">
+                <h4>Integrações & Infraestrutura</h4>
+                <ul style="grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));">
+                    <li>Bitso (Exchange)</li>
+                    <li>Fireblocks (Custódia)</li>
+                    <li>Nexo.io (Yield)</li>
+                    <li>Aave (DeFi Protocol)</li>
+                    <li>Fetch.ai (Agentes)</li>
+                    <li>TheGraph (Dados)</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- Roadmap -->
+    <section>
+        <div class="container">
+            <h2 class="section-title">Roadmap de Execução</h2>
+            <p class="section-subtitle">Do MVP ao crescimento escalável</p>
+            
+            <div class="roadmap">
+                <div class="roadmap-item">
+                    <div class="roadmap-phase">Mês 1-2</div>
+                    <div class="roadmap-title">MVP</div>
+                    <div class="roadmap-desc">Frontend + Backend + Integrações básicas</div>
+                    <div class="roadmap-cost">R$ 12.318</div>
+                </div>
+                
+                <div class="roadmap-item">
+                    <div class="roadmap-phase">Mês 2-4</div>
+                    <div class="roadmap-title">Beta</div>
+                    <div class="roadmap-desc">100 early adopters + Licença FIZ Geórgia</div>
+                    <div class="roadmap-cost">€14.000</div>
+                </div>
+                
+                <div class="roadmap-item">
+                    <div class="roadmap-phase">Mês 5-6</div>
+                    <div class="roadmap-title">Lançamento</div>
+                    <div class="roadmap-desc">Marketing digital + 1.000 usuários ativos</div>
+                    <div class="roadmap-cost">R$ 20k/mês</div>
+                </div>
+                
+                <div class="roadmap-item highlight">
+                    <div class="roadmap-phase">Ano 1</div>
+                    <div class="roadmap-title">Expansão</div>
+                    <div class="roadmap-desc">App mobile + Plano Premium + Crescimento</div>
+                    <div class="roadmap-cost">10.000 users</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Estrutura Legal -->
+    <section style="background: var(--surface);">
+        <div class="container">
+            <h2 class="section-title">Estrutura Legal & Regulatória</h2>
+            <p class="section-subtitle">FIZ Kutaisi, Geórgia - Jurisdição otimizada para fintech cripto</p>
+            
+            <div class="grid grid-2">
+                <div class="card">
+                    <h3>Vantagens FIZ Geórgia</h3>
+                    <ul class="feature-list">
+                        <li>Registro rápido: 5-10 dias úteis</li>
+                        <li>Tributação: apenas 15% sobre dividendos</li>
+                        <li>Isenção total: 0% imposto de renda, IVA, patrimônio</li>
+                        <li>Licença cripto completa: exchange, custódia, pagamentos</li>
+                        <li>Sem capital mínimo ou funcionários locais</li>
+                    </ul>
+                </div>
+                
+                <div class="card">
+                    <h3>Investimento Legal</h3>
+                    <ul class="feature-list">
+                        <li>Registro LLC: €2.000</li>
+                        <li>Licença cripto: €12.000</li>
+                        <li>Total: €14.000 (~US$ 15.000)</li>
+                        <li>Conformidade LGPD brasileira</li>
+                        <li>KYC/AML implementado</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <div class="cta-section">
+        <div class="container">
+            <h2>Investimento Seed Round</h2>
+            <p style="font-size: 3rem; font-weight: bold; margin: 20px 0;">R$ 500k - 1M</p>
+            
+            <div style="max-width: 600px; margin: 40px auto;">
+                <div style="text-align: left; background: rgba(255,255,255,0.1); padding: 20px; border-radius: 8px; margin-bottom: 15px;">
+                    <strong>MVP + Licença:</strong> €26k - Finalização técnica e legal
+                </div>
+                <div style="text-align: left; background: rgba(255,255,255,0.1); padding: 20px; border-radius: 8px; margin-bottom: 15px;">
+                    <strong>Marketing:</strong> R$ 300k - Aquisição de primeiros 10k usuários
+                </div>
+                <div style="text-align: left; background: rgba(255,255,255,0.1); padding: 20px; border-radius: 8px;">
+                    <strong>Operacional:</strong> R$ 200k - Equipe e infraestrutura até break-even
+                </div>
+            </div>
+            
+            <a href="mailto:contato@dollarup.io" class="button" style="margin-top: 30px;">Entre em Contato</a>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <h3 style="font-size: 2rem; margin-bottom: 15px;">DollarUp.io</h3>
+            <div class="accent-bar"></div>
+            <p style="font-size: 1.1rem; max-width: 600px; margin: 20px auto;">A ponte que conecta brasileiros à economia global de forma simples, segura e rentável</p>
+            <p style="margin-top: 30px;"><strong>www.dollarup.io</strong></p>
+            <p>contato@dollarup.io</p>
+            <p style="margin-top: 30px; font-size: 0.9rem;">© 2025 DollarUp. Todos os direitos reservados.</p>
+        </div>
+    </footer>
+</body>
+</html>
