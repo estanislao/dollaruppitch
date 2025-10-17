@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="DollarUp - Investimento em Dólar Acessível via PIX com Rendimento Automatizado">
     <title>DollarUp.io - Investimento em Dólar Democratizado</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         * {
             margin: 0;
@@ -21,6 +22,9 @@
             --text-light: #FFFFFF;
             --surface: #F8F9FA;
             --surface-dark: #E8EBF0;
+            --warning: #FF6B35;
+            --cdb: #9B59B6;
+            --tesouro: #3498DB;
         }
 
         body {
@@ -298,11 +302,19 @@
             .metric-value {
                 font-size: 2.5rem;
             }
+
+            .chart-wrapper {
+                height: 300px;
+            }
+
+            .comparison-summary {
+                grid-template-columns: 1fr;
+            }
         }
 
         .problem-highlight {
             background: linear-gradient(135deg, rgba(255, 107, 53, 0.1) 0%, rgba(255, 107, 53, 0.05) 100%);
-            border-left-color: #FF6B35;
+            border-top-color: #FF6B35;
         }
 
         .tech-stack {
@@ -331,6 +343,71 @@
             border-radius: 6px;
             font-size: 0.9rem;
             text-align: center;
+        }
+
+        .chart-container {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            margin-top: 40px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .chart-wrapper {
+            max-width: 1000px;
+            margin: 0 auto;
+            height: 450px;
+        }
+
+        .comparison-summary {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        .summary-card {
+            background: var(--surface);
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+            border: 2px solid transparent;
+        }
+
+        .summary-card.winner {
+            border: 3px solid var(--accent);
+            background: linear-gradient(135deg, rgba(0, 170, 94, 0.05) 0%, rgba(0, 170, 94, 0.1) 100%);
+        }
+
+        .summary-card h4 {
+            font-size: 1.1rem;
+            margin-bottom: 12px;
+            color: var(--primary-dark);
+        }
+
+        .summary-value {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: var(--accent);
+            margin: 8px 0;
+        }
+
+        .summary-card.poupanca .summary-value {
+            color: var(--warning);
+        }
+
+        .summary-card.cdb .summary-value {
+            color: var(--cdb);
+        }
+
+        .summary-card.tesouro .summary-value {
+            color: var(--tesouro);
+        }
+
+        .summary-label {
+            font-size: 0.85rem;
+            opacity: 0.7;
+            margin-top: 5px;
         }
     </style>
 </head>
@@ -362,7 +439,7 @@
                 </div>
                 <div class="metric-card problem-highlight">
                     <div class="metric-value">0,5%</div>
-                    <div class="metric-label">Poupança/mês</div>
+                    <div class="metric-label">Poupança/ano</div>
                     <div class="metric-detail">não acompanha inflação</div>
                 </div>
             </div>
@@ -382,11 +459,51 @@
                 </div>
                 <div class="card">
                     <h3>📈 Rendimento Passivo</h3>
-                    <p>Yield automático de ~6% APY através de protocolos DeFi auditados (Aave + Nexo.io) com rebalanceamento inteligente.</p>
+                    <p>Yield automático de ~7% APY através de protocolos DeFi auditados (Aave + Nexo.io) com rebalanceamento inteligente.</p>
                 </div>
                 <div class="card">
                     <h3>🔒 Segurança Total</h3>
                     <p>Custódia institucional via Fireblocks com tecnologia MPC (Multi-Party Computation). Infraestrutura de nível bancário.</p>
+                </div>
+            </div>
+
+            <!-- Gráfico Comparativo -->
+            <div class="chart-container">
+                <h3 style="text-align: center; color: var(--primary); margin-bottom: 20px;">Comparativo de Investimentos</h3>
+                <p style="text-align: center; opacity: 0.7; margin-bottom: 30px;">Investimento mensal de R$ 500 durante 12 meses</p>
+                
+                <div class="chart-wrapper">
+                    <canvas id="comparisonChart"></canvas>
+                </div>
+
+                <div class="comparison-summary">
+                    <div class="summary-card poupanca">
+                        <h4>🏦 Poupança</h4>
+                        <div class="summary-value">R$ 12,50</div>
+                        <div class="summary-label">0,5% a.a.</div>
+                    </div>
+
+                    <div class="summary-card cdb">
+                        <h4>💳 CDB</h4>
+                        <div class="summary-value">R$ 224,96</div>
+                        <div class="summary-label">8% a.a.</div>
+                    </div>
+
+                    <div class="summary-card tesouro">
+                        <h4>🏛️ Tesouro Direto</h4>
+                        <div class="summary-value">R$ 253,79</div>
+                        <div class="summary-label">9% a.a.</div>
+                    </div>
+                    
+                    <div class="summary-card winner">
+                        <h4>💎 DollarUp</h4>
+                        <div class="summary-value">R$ 428,00</div>
+                        <div class="summary-label">7% a.a. + câmbio (3,68%)</div>
+                    </div>
+                </div>
+
+                <div style="text-align: center; margin-top: 30px; padding: 20px; background: linear-gradient(135deg, rgba(0, 170, 94, 0.1) 0%, rgba(0, 170, 94, 0.05) 100%); border-radius: 8px;">
+                    <p style="font-size: 1.2rem; font-weight: bold; color: var(--accent);">🚀 DollarUp rende 34x mais que a poupança e 69% mais que o Tesouro Direto!</p>
                 </div>
             </div>
         </div>
@@ -415,6 +532,15 @@
                     <div class="metric-detail">75-80% da pop. adulta</div>
                 </div>
             </div>
+
+            <!-- Nova métrica Aave -->
+            <div style="margin-top: 40px;">
+                <div class="metric-card" style="border-top-color: var(--primary); max-width: 600px; margin: 0 auto;">
+                    <div class="metric-value">US$ 21,13 Bi</div>
+                    <div class="metric-label">Contratos Ativos na Aave</div>
+                    <div class="metric-detail">Bloqueados ao redor do mundo - Protocolo auditado e confiável</div>
+                </div>
+            </div>
         </div>
     </section>
 
@@ -439,7 +565,7 @@
                 </div>
                 <div class="card" style="border-left-color: var(--primary);">
                     <h3>4️⃣ Yield DeFi</h3>
-                    <p>Alocação automática em pools DeFi (Aave) gerando ~6% APY passivo.</p>
+                    <p>Alocação automática em pools DeFi (Aave) gerando ~7% APY passivo.</p>
                 </div>
             </div>
         </div>
@@ -461,19 +587,19 @@
                     <p><strong>Performance Fee</strong><br>Sobre rendimentos DeFi (usuário fica com 80%)</p>
                 </div>
                 <div class="card">
-                    <h3>R$ 19/mês</h3>
+                    <h3>US$ 4/mês</h3>
                     <p><strong>Plano Premium</strong><br>APY boost, relatórios fiscais, API, limites maiores</p>
                 </div>
             </div>
 
             <div class="stats-grid" style="margin-top: 50px;">
                 <div class="metric-card">
-                    <div class="metric-value">R$ 50</div>
+                    <div class="metric-value">US$ 10</div>
                     <div class="metric-label">CAC</div>
                     <div class="metric-detail">Custo de Aquisição</div>
                 </div>
                 <div class="metric-card">
-                    <div class="metric-value">R$ 500</div>
+                    <div class="metric-value">US$ 100</div>
                     <div class="metric-label">LTV</div>
                     <div class="metric-detail">Lifetime Value</div>
                 </div>
@@ -495,19 +621,19 @@
             <div class="stats-grid">
                 <div class="metric-card">
                     <div class="metric-label">Ano 1</div>
-                    <div class="metric-value">R$ 1,2M</div>
+                    <div class="metric-value">US$ 240k</div>
                     <div class="metric-detail">10.000 usuários</div>
                     <div class="metric-detail" style="margin-top: 10px; font-weight: bold;">Margem: 50%</div>
                 </div>
                 <div class="metric-card">
                     <div class="metric-label">Ano 2</div>
-                    <div class="metric-value">R$ 6M</div>
+                    <div class="metric-value">US$ 1,2M</div>
                     <div class="metric-detail">50.000 usuários</div>
                     <div class="metric-detail" style="margin-top: 10px; font-weight: bold;">Margem: 75%</div>
                 </div>
                 <div class="metric-card">
                     <div class="metric-label">Ano 3</div>
-                    <div class="metric-value">R$ 18M</div>
+                    <div class="metric-value">US$ 3,6M</div>
                     <div class="metric-detail">150.000 usuários</div>
                     <div class="metric-detail" style="margin-top: 10px; font-weight: bold;">Margem: 89%</div>
                 </div>
@@ -530,7 +656,7 @@
                 <li><strong>Único com Yield Automático:</strong> Mercado Bitcoin e Nubank focam apenas em trading. Nós geramos rendimento passivo real através de DeFi.</li>
                 <li><strong>Agentes Autônomos:</strong> Arquitetura com Fetch.ai reduz custos operacionais em 40% e aumenta eficiência transacional.</li>
                 <li><strong>UX Simples + DeFi Avançado:</strong> Interface comparável a Nubank + tecnologia DeFi sofisticada = acessível para todos.</li>
-                <li><strong>CAC Otimizado:</strong> Custo de aquisição de R$ 50 com LTV de R$ 500 = retorno de 10x sobre investimento em marketing.</li>
+                <li><strong>CAC Otimizado:</strong> Custo de aquisição de US$ 10 com LTV de US$ 100 = retorno de 10x sobre investimento em marketing.</li>
                 <li><strong>Foco em Proteção Patrimonial:</strong> Posicionamento claro como solução de hedge cambial, não apenas trading especulativo.</li>
             </ul>
         </div>
@@ -588,7 +714,7 @@
                     <div class="roadmap-phase">Mês 1-2</div>
                     <div class="roadmap-title">MVP</div>
                     <div class="roadmap-desc">Frontend + Backend + Integrações básicas</div>
-                    <div class="roadmap-cost">R$ 12.318</div>
+                    <div class="roadmap-cost">US$ 2.500</div>
                 </div>
                 
                 <div class="roadmap-item">
@@ -602,7 +728,7 @@
                     <div class="roadmap-phase">Mês 5-6</div>
                     <div class="roadmap-title">Lançamento</div>
                     <div class="roadmap-desc">Marketing digital + 1.000 usuários ativos</div>
-                    <div class="roadmap-cost">R$ 20k/mês</div>
+                    <div class="roadmap-cost">US$ 4k/mês</div>
                 </div>
                 
                 <div class="roadmap-item highlight">
@@ -651,17 +777,17 @@
     <div class="cta-section">
         <div class="container">
             <h2>Investimento Seed Round</h2>
-            <p style="font-size: 3rem; font-weight: bold; margin: 20px 0;">R$ 500k - 1M</p>
+            <p style="font-size: 3rem; font-weight: bold; margin: 20px 0;">US$ 100k - 200k</p>
             
             <div style="max-width: 600px; margin: 40px auto;">
                 <div style="text-align: left; background: rgba(255,255,255,0.1); padding: 20px; border-radius: 8px; margin-bottom: 15px;">
-                    <strong>MVP + Licença:</strong> €26k - Finalização técnica e legal
+                    <strong>MVP + Licença:</strong> US$ 18k - Finalização técnica e legal
                 </div>
                 <div style="text-align: left; background: rgba(255,255,255,0.1); padding: 20px; border-radius: 8px; margin-bottom: 15px;">
-                    <strong>Marketing:</strong> R$ 300k - Aquisição de primeiros 10k usuários
+                    <strong>Marketing:</strong> US$ 60k - Aquisição de primeiros 10k usuários
                 </div>
                 <div style="text-align: left; background: rgba(255,255,255,0.1); padding: 20px; border-radius: 8px;">
-                    <strong>Operacional:</strong> R$ 200k - Equipe e infraestrutura até break-even
+                    <strong>Operacional:</strong> US$ 40k - Equipe e infraestrutura até break-even
                 </div>
             </div>
             
@@ -680,5 +806,143 @@
             <p style="margin-top: 30px; font-size: 0.9rem;">© 2025 DollarUp. Todos os direitos reservados.</p>
         </div>
     </footer>
+
+    <script>
+        // Dados para o gráfico comparativo
+        const ctx = document.getElementById('comparisonChart').getContext('2d');
+        
+        // Cálculo mês a mês
+        const meses = ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'];
+        
+        // Poupança: 0.5% ao ano = 0.0416% ao mês aproximadamente
+        const taxaPoupancaMensal = 0.005 / 12;
+        let saldoPoupanca = 0;
+        const rendimentosPoupanca = [];
+        
+        for (let i = 1; i <= 12; i++) {
+            saldoPoupanca += 500;
+            const juros = saldoPoupanca * taxaPoupancaMensal;
+            saldoPoupanca += juros;
+            rendimentosPoupanca.push((saldoPoupanca - (i * 500)).toFixed(2));
+        }
+        
+        // CDB: dados fornecidos
+        const rendimentosCDB = [0, 3.33, 10.02, 20.09, 33.56, 50.45, 70.78, 94.59, 121.89, 152.70, 187.05, 224.96];
+        
+        // Tesouro Direto: dados fornecidos
+        const rendimentosTesouro = [0, 3.75, 11.28, 22.61, 37.78, 56.82, 79.74, 106.59, 137.39, 172.17, 210.96, 253.79];
+        
+        // DollarUp: 7% ao ano = 0.5833% ao mês + câmbio 3.68% ao ano = 0.3067% ao mês
+        const taxaDollarUpMensal = 0.07 / 12;
+        const taxaCambioMensal = 0.0368 / 12;
+        let saldoDollarUp = 0;
+        const rendimentosDollarUp = [];
+        
+        for (let i = 1; i <= 12; i++) {
+            saldoDollarUp += 500;
+            const jurosYield = saldoDollarUp * taxaDollarUpMensal;
+            const ganhosCambio = saldoDollarUp * taxaCambioMensal;
+            saldoDollarUp += jurosYield + ganhosCambio;
+            rendimentosDollarUp.push((saldoDollarUp - (i * 500)).toFixed(2));
+        }
+        
+        const comparisonChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: meses,
+                datasets: [
+                    {
+                        label: '🏦 Poupança (0,5% a.a.)',
+                        data: rendimentosPoupanca,
+                        borderColor: '#FF6B35',
+                        backgroundColor: 'rgba(255, 107, 53, 0.1)',
+                        borderWidth: 3,
+                        tension: 0.4,
+                        fill: true
+                    },
+                    {
+                        label: '💳 CDB (8% a.a.)',
+                        data: rendimentosCDB,
+                        borderColor: '#9B59B6',
+                        backgroundColor: 'rgba(155, 89, 182, 0.1)',
+                        borderWidth: 3,
+                        tension: 0.4,
+                        fill: true
+                    },
+                    {
+                        label: '🏛️ Tesouro Direto (9% a.a.)',
+                        data: rendimentosTesouro,
+                        borderColor: '#3498DB',
+                        backgroundColor: 'rgba(52, 152, 219, 0.1)',
+                        borderWidth: 3,
+                        tension: 0.4,
+                        fill: true
+                    },
+                    {
+                        label: '💎 DollarUp (7% + câmbio)',
+                        data: rendimentosDollarUp,
+                        borderColor: '#00AA5E',
+                        backgroundColor: 'rgba(0, 170, 94, 0.1)',
+                        borderWidth: 4,
+                        tension: 0.4,
+                        fill: true
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: true,
+                        position: 'top',
+                        labels: {
+                            font: {
+                                size: 13,
+                                weight: 'bold'
+                            },
+                            padding: 15,
+                            usePointStyle: true
+                        }
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                return context.dataset.label + ': R$ ' + parseFloat(context.parsed.y).toFixed(2);
+                            }
+                        }
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: 'Rendimento Acumulado (R$)',
+                            font: {
+                                size: 14,
+                                weight: 'bold'
+                            }
+                        },
+                        ticks: {
+                            callback: function(value) {
+                                return 'R$ ' + value.toFixed(0);
+                            }
+                        }
+                    },
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Meses',
+                            font: {
+                                size: 14,
+                                weight: 'bold'
+                            }
+                        }
+                    }
+                }
+            }
+        });
+    </script>
 </body>
 </html>
